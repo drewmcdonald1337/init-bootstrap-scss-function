@@ -1,0 +1,25 @@
+// custom variable values
+$primary: #0b2666;
+$secondary: #e33b19;
+$tertiary: #e89e1e;
+
+// import the functions & variables from 
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "./utilities/init-bootstrap";
+
+// custom theme colors map
+$custom-colors: (
+  "primary":    $primary,
+  "secondary": $secondary,
+  "tertiary":   $tertiary
+);
+
+$new-values: init-bootstrap($custom-colors);
+
+// Override Bootstrap values
+$theme-colors: map-get($new-values, "theme-colors");
+$utilities: map-get($new-values, "utilities");
+
+// import bootstrap
+@import '../node_modules/bootstrap/scss/bootstrap';

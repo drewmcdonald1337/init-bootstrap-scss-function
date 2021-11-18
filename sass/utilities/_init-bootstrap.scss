@@ -1,0 +1,81 @@
+// import the functions & variables
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/utilities";
+
+@function init-bootstrap($new-colors) {
+  // merge the maps to add new theme colors
+  $theme-colors: map-merge($theme-colors, $new-colors);
+  
+  $palette : (
+    100 : 40%,
+    200 : 30%,
+    300 : 20%,
+    400 : 10%,
+    500 : 0,
+    600 : 10%,
+    700 : 20%,
+    800 : 30%,
+    900 : 40%
+  );
+  
+  @each $name, $hex in $theme-colors {
+    @each $weight, $percentage in $palette {
+      @if $weight < 500 {
+        $new-map: (
+          "#{$name}-#{$weight}": lighten($hex, $percentage)
+        ); 
+        $theme-colors: map-merge($theme-colors, $new-map);
+      } @else if $weight > 500 {
+        $new-map: (
+          "#{$name}-#{$weight}": darken($hex, $percentage)
+        ); 
+        $theme-colors: map-merge($theme-colors, $new-map);
+      } @else {
+        $new-map: (
+          "#{$name}-#{$weight}": $hex
+        ); 
+        $theme-colors: map-merge($theme-colors, $new-map);
+      }
+    }
+  }
+
+  $utilities-to-add: (
+    "color",
+    "background-color",
+    "border-color"
+  );
+
+  $new-utility-map-merges: ();
+
+  @each $val in $utilities-to-add {
+    $i: index($utilities-to-add, $val);
+    $map-to-merge: $new-utility-map-merges;
+    @if $i == 0 {
+      $map-to-merge: $utilities;
+    }
+    $new-utility-map-merges: map-merge(
+      $map-to-merge,
+      (
+        "#{$val}": map-merge(
+          map-get($utilities, "#{$val}"),
+          (
+            values: map-merge(
+              map-get(map-get($utilities, "#{$val}"), "values"),
+              (
+                $theme-colors
+              ),
+            ),
+          ),
+        ),
+      )
+    );
+  }
+
+  $new-values: (
+    "utilities": $new-utility-map-merges,
+    "theme-colors": $theme-colors
+  );
+  @return $new-values;
+}
