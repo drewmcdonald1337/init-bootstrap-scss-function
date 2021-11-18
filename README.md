@@ -7,4 +7,4 @@ This is a SASS function that takes a map of colors to extend Bootstrap 5's themi
 * Open the `index.html` file in your browser. Sorry, no hot reload, this repo focuses on the Bootstrap SASS Theme Utility extensions so there's not a proper build pipeline.
 
 ## Contributing
-If you like what this script does and you think it's pretty, feel free to cut a branch and submit a PR!
+If you like what this script does and you think it's not that pretty, feel free to cut a branch and submit a PR!
